@@ -1,34 +1,67 @@
 import { Injectable } from "@angular/core";
-import { Empleado } from "./empleado.module";
+import { DataServices } from "./data.services";
+import { Empleado } from "./empleado.model";
 import { ServicioEmpleadosService } from "./servicio-empleados.service";
 
-@Injectable()
-export class EmpleadosService {
+  @Injectable()
+    export class EmpleadosService{
 
-    constructor(private servicioVentanaEmergente: ServicioEmpleadosService) {
-
-
+    
+    constructor(private servicioVentanaEmergente: ServicioEmpleadosService, private dataService:DataServices){
+      
+    }
+    setEmpleados(misEmpleados:Empleado[]){
+      this.empleados=misEmpleados;
     }
 
+    obtenerEmpleados(){
 
-        empleados:Empleado[]=[
+      return this.dataService.cargarEmpleados();
+    }
+    empleados:Empleado[]=[];
+    
+  /*empleados:Empleado[]=[
+    new Empleado("Juan","Diaz","Presidente",7500),
+    new Empleado("Ana","Martin","Directora",5500),
+    new Empleado("Maria","Fdez","Jefa Sección",3500),
+    new Empleado("Laura","Lopez","Administración",2500),
 
-            new Empleado("Juan","Díaz","Presidente",7500),
-            new Empleado("Ana","Martín","Directora",5500),
-            new Empleado("María","Fdez","Jefa sección",3500),
-            new Empleado("Laura","López","Administrativo",2500),
-        
-        
-        
-        ];
+  ];*/
 
+  agregarEmpleadoServicio(empleado:Empleado){
+    this.servicioVentanaEmergente.muestraMensaje("Persona que se va a agregar: "+"\n" +
+    empleado.nombre + "\n" + "Salario: "+ empleado.salario);
 
-            agregarEmpleadoServicio(empleado:Empleado) {
+    this.empleados.push(empleado);
 
-                this.servicioVentanaEmergente.muestraMensaje("Persona que se va a agregar: " + "\n" + 
-                empleado.nombre + "\n" + "Salario: " + empleado.salario);
+    this.dataService.guardarEmpleados(this.empleados);
+  }
+  encontrarEmpleado(indice:number){
 
+    let empleado:Empleado=this.empleados[indice];
 
-                this.empleados.push(empleado);
-            }
+    return empleado;
+  }
+  actualizarEmpleado(indice:number, empleado:Empleado){
+
+    let empleadoModificado=this.empleados[indice];
+
+    empleadoModificado.nombre=empleado.nombre;
+    empleadoModificado.apellido=empleado.apellido;
+    empleadoModificado.cargo=empleado.cargo;
+    empleadoModificado.salario=empleado.salario;
+
+    this.dataService.actualizarEmpleado(indice,empleado);
+
+  }
+
+  eliminarEmpleado(indice:number){
+
+    this.empleados.splice(indice,1);
+
+    this.dataService.eliminarEmpleado(indice); 
+
+    if(this.empleados!=null )  this.dataService.guardarEmpleados(this.empleados);
+  }
+
 }

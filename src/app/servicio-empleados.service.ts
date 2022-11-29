@@ -7,12 +7,7 @@ export class ServicioEmpleadosService {
 
   constructor() { }
 
-
-  muestraMensaje(mensaje:string) {
-
+  muestraMensaje(mensaje:string){
     alert(mensaje);
-
-
   }
-
 }

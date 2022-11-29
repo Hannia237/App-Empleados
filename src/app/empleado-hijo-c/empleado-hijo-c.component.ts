@@ -1,39 +1,34 @@
-import { Component, Input } from '@angular/core';
-import { Empleado } from '../empleado.module';
+import { Component, Input, OnInit } from '@angular/core';
+import { Empleado } from '../empleado.model';
 
 @Component({
   selector: 'app-empleado-hijo-c',
   templateUrl: './empleado-hijo-c.component.html',
   styleUrls: ['./empleado-hijo-c.component.css']
 })
-export class EmpleadoHijoCComponent {
+export class EmpleadoHijoCComponent implements OnInit {
 
-  @Input()empleadoDeLista:Empleado;
-  @Input()indice:number;
+  @Input() empleadoDeLista:Empleado;
+  @Input() indice:number;
 
+  constructor() { }
 
-
+  ngOnInit(): void {
+  }
   empleados:Empleado[]=[
-
-    new Empleado("Juan","Díaz","Presidente",7500),
-    new Empleado("Ana","Martín","Directora",5500),
-    new Empleado("María","Fdez","Jefa sección",3500),
-    new Empleado("Laura","López","Administrativo",2500),
-
-
+    new Empleado("Juan","Diaz","Presidente",7500),
+    new Empleado("Ana","Martin","Directora",5500),
+    new Empleado("Maria","Fdez","Jefa Sección",3500),
+    new Empleado("Laura","Lopez","Administración",2500),
 
   ];
   empleadoAgregado(empleado:Empleado){
     this.empleados.push(empleado);
   }
+  arrayCaracteristicas = [''];
 
-
-  arrayCaracteristicas=[''];
-
-  agregarCaracteristica(nuevaCarecteristica: string){
-    this.arrayCaracteristicas.push(nuevaCarecteristica);
+  agregarCaracteristica(nuevaCaracteristica: string){
+    this.arrayCaracteristicas.push(nuevaCaracteristica);
   }
 
-
-  
 }
